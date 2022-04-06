@@ -19,34 +19,11 @@ namespace TheatricalPlayersRefactoringKata
             CultureInfo cultureInfo = new CultureInfo("en-US");
             result += "\n  <table>\n";
             result += "    <tr><th>play</th><th>seats</th><th>cost</th></tr>\n";
-            for (var index = 0; index < invoice.Performances.Count; index++)
+            foreach (var perf in invoice.Performances)
             {
-                var perf = invoice.Performances[index];
                 var play = plays[perf.PlayID];
-                var thisAmount = 0;
-                switch (play.Type)
-                {
-                    case "tragedy":
-                        thisAmount = 40000;
-                        if (perf.Audience > 30)
-                        {
-                            thisAmount += 1000 * (perf.Audience - 30);
-                        }
-
-                        break;
-                    case "comedy":
-                        thisAmount = 30000;
-                        if (perf.Audience > 20)
-                        {
-                            thisAmount += 10000 + 500 * (perf.Audience - 20);
-                        }
-
-                        thisAmount += 300 * perf.Audience;
-                        break;
-                    default:
-                        throw new Exception("unknown type: " + play.Type);
-                }
-
+                var thisAmount = SwitchPlayType(play, perf);
+                
                 // add volume credits
                 volumeCredits += Math.Max(perf.Audience - 30, 0);
                 // add extra credit for every ten comedy attendees
@@ -69,6 +46,52 @@ namespace TheatricalPlayersRefactoringKata
             result += "</html>";
             return result;
         }
+
+        private static int SwitchPlayType(Play play, Performance perf)
+        {
+            int thisAmount;
+            switch (play.Type)
+            {
+                case "tragedy":
+                    thisAmount = GetTragedyAmount(perf);
+
+                    break;
+                case "comedy":
+                    thisAmount = GetComedyAmount(perf);
+
+                    thisAmount += 300 * perf.Audience;
+                    break;
+                default:
+                    throw new Exception("unknown type: " + play.Type);
+            }
+
+            return thisAmount;
+        }
+
+        private static int GetComedyAmount(Performance perf)
+        {
+            int thisAmount;
+            thisAmount = 30000;
+            if (perf.Audience > 20)
+            {
+                thisAmount += 10000 + 500 * (perf.Audience - 20);
+            }
+
+            return thisAmount;
+        }
+
+        private static int GetTragedyAmount(Performance perf)
+        {
+            int thisAmount;
+            thisAmount = 40000;
+            if (perf.Audience > 30)
+            {
+                thisAmount += 1000 * (perf.Audience - 30);
+            }
+
+            return thisAmount;
+        }
+
         public string Print(Invoice invoice, Dictionary<string, Play> plays)
         {
             var totalAmount = 0;
@@ -79,25 +102,7 @@ namespace TheatricalPlayersRefactoringKata
             foreach(var perf in invoice.Performances) 
             {
                 var play = plays[perf.PlayID];
-                var thisAmount = 0;
-                switch (play.Type) 
-                {
-                    case "tragedy":
-                        thisAmount = 40000;
-                        if (perf.Audience > 30) {
-                            thisAmount += 1000 * (perf.Audience - 30);
-                        }
-                        break;
-                    case "comedy":
-                        thisAmount = 30000;
-                        if (perf.Audience > 20) {
-                            thisAmount += 10000 + 500 * (perf.Audience - 20);
-                        }
-                        thisAmount += 300 * perf.Audience;
-                        break;
-                    default:
-                        throw new Exception("unknown type: " + play.Type);
-                }
+                var thisAmount = SwitchPlayType(play, perf);
                 // add volume credits
                 volumeCredits += Math.Max(perf.Audience - 30, 0);
                 // add extra credit for every ten comedy attendees
