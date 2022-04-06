@@ -1,12 +1,13 @@
-﻿<html><h1>Statement for BigCo
-</h1>
-  Hamlet: $650.00 (55 seats)
-  As You Like It: $580.00 (35 seats)
-  Othello: $500.00 (40 seats)
+﻿<html>
+<h1>Statement for BigCo</h1>
+<table>
+<tr><th>play</th><th>seats</th><th>cost</th></tr>
+<tr><td>Hamlet</td><td>$55.00</td><td>650</td></tr>
+<tr><td>As You Like It</td><td>$35.00</td><td>580</td></tr>
+<tr><td>Othello</td><td>$40.00</td><td>500</td></tr>
+</table>
 <p>Amount owed is <em>1730</em>
-
 </p>
 <p>You earned <em>47</em>
- credits
-</p>
+ credits</p>
 </html>
