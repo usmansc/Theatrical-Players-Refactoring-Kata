@@ -15,9 +15,9 @@ namespace TheatricalPlayersRefactoringKata
             var totalAmount = 0;
             var volumeCredits = 0;
             var result = "<html>";
-            result += createTag("h1", string.Format("Statement for {0}\n", invoice.Customer));
+            result += createTag("h1", string.Format("Statement for {0}", invoice.Customer));
             CultureInfo cultureInfo = new CultureInfo("en-US");
-
+            result += "<table>";
             foreach(var perf in invoice.Performances) 
             {
                 var play = plays[perf.PlayID];
@@ -46,13 +46,15 @@ namespace TheatricalPlayersRefactoringKata
                 if ("comedy" == play.Type) volumeCredits += (int)Math.Floor((decimal)perf.Audience / 5);
 
                 // print line for this order
-                result += string.Format(cultureInfo, "  {0}: {1:C} ({2} seats)\n", play.Name, Convert.ToDecimal(thisAmount / 100), perf.Audience);
+                result += string.Format(cultureInfo, " <tr><th> {0}:</th><th>{1:C}</th><th> ({2} seats)\n", play.Name, Convert.ToDecimal(thisAmount / 100), perf.Audience);
                 totalAmount += thisAmount;
             }
+
+            result += "</table>";
             var amount =  createTag("em",Convert.ToDecimal(totalAmount / 100).ToString());
-            result += createTag("p",string.Format(cultureInfo, "Amount owed is {0}\n", amount));
+            result += createTag("p",string.Format(cultureInfo, "Amount owed is {0}", amount));
             var credits = createTag("em", volumeCredits.ToString());
-            result += createTag("p",string.Format("You earned {0} credits\n", credits));
+            result += createTag("p",string.Format("You earned {0} credits", credits));
             result += "</html>";
             return result;
         }
