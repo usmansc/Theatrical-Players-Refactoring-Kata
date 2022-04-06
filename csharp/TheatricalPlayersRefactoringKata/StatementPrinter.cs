@@ -8,7 +8,7 @@ namespace TheatricalPlayersRefactoringKata
     {
         public string createTag(string tag, string text)
         {
-            return string.Format("<{0}>{1}</{0}>", tag, text);
+            return string.Format("  <{0}>{1}</{0}>", tag, text);
         }
         public string PrintAsHtml(Invoice invoice, Dictionary<string, Play> plays)
         {
@@ -17,8 +17,8 @@ namespace TheatricalPlayersRefactoringKata
             var result = "<html>\n";
             result += createTag("h1", string.Format("Statement for {0}", invoice.Customer));
             CultureInfo cultureInfo = new CultureInfo("en-US");
-            result += "\n<table>\n";
-            result += "<tr><th>play</th><th>seats</th><th>cost</th></tr>\n";
+            result += "\n  <table>\n";
+            result += "    <tr><th>play</th><th>seats</th><th>cost</th></tr>\n";
             for (var index = 0; index < invoice.Performances.Count; index++)
             {
                 var perf = invoice.Performances[index];
@@ -53,17 +53,18 @@ namespace TheatricalPlayersRefactoringKata
                 if ("comedy" == play.Type) volumeCredits += (int) Math.Floor((decimal) perf.Audience / 5);
 
                 // print line for this order
-                result += string.Format(cultureInfo, "<tr><td>{0}</td><td>{1}</td><td>{2:C}</td></tr>\n",
+                result += string.Format(cultureInfo, "    <tr><td>{0}</td><td>{1}</td><td>{2:C}</td></tr>\n",
                     play.Name, perf.Audience, Convert.ToDecimal(thisAmount / 100));
 
                 totalAmount += thisAmount;
             }
 
-            result += "</table>\n";
+            result += "  </table>\n";
             result += createTag("p",string.Format(cultureInfo, "Amount owed is <em>{0:C}</em>", Convert.ToDecimal(totalAmount / 100)));
             result += "\n";
             var credits = createTag("em", volumeCredits.ToString());
-            result += createTag("p",string.Format("You earned {0} credits", credits));
+            result += string.Format("<p>You earned <em>{0}</em> credits</p>",
+                volumeCredits.ToString());
             result += "\n";
             result += "</html>";
             return result;
