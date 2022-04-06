@@ -6,6 +6,11 @@ namespace TheatricalPlayersRefactoringKata
 {
     public class StatementPrinter
     {
+
+        public string PrintAsHtml(Invoice invoice, Dictionary<string, Play> plays)
+        {
+            return "";
+        }
         public string Print(Invoice invoice, Dictionary<string, Play> plays)
         {
             var totalAmount = 0;
@@ -48,5 +53,6 @@ namespace TheatricalPlayersRefactoringKata
             result += string.Format("You earned {0} credits\n", volumeCredits);
             return result;
         }
+        
     }
 }
