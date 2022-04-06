@@ -63,7 +63,7 @@ namespace TheatricalPlayersRefactoringKata
             result += createTag("p",string.Format(cultureInfo, "Amount owed is <em>{0:C}</em>", Convert.ToDecimal(totalAmount / 100)));
             result += "\n";
             var credits = createTag("em", volumeCredits.ToString());
-            result += string.Format("<p>You earned <em>{0}</em> credits</p>",
+            result += string.Format("  <p>You earned <em>{0}</em> credits</p>",
                 volumeCredits.ToString());
             result += "\n";
             result += "</html>";
